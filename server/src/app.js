@@ -7,10 +7,23 @@ import authRouter from './routes/auth.js';
 
 const app = express();
 
+// Allowed frontend origins
+const allowedOrigins = [
+  "http://localhost:5173",           // Vite dev server
+  "https://skill-sync-mgrt.vercel.app" // 👈 replace with your actual frontend URL
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || '*',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
+
 app.use(express.json());
 
 app.get('/', (_req, res) => {
