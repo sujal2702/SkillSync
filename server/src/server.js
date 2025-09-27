@@ -4,12 +4,19 @@ import { connectDB } from './config/db.js';
 
 dotenv.config();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT; // Render will provide the correct port
 
 async function start() {
   try {
+    console.log('Attempting to connect to MongoDB...');
     await connectDB();
-    app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
+    console.log('✅ MongoDB connected successfully');
+    console.log('MongoDB connection state:', mongoose.connection.readyState);
+
+    app.listen(PORT, () => {
+      console.log(`API running on port ${PORT}`);
+      console.log('Available at your primary URL:', process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`);
+    });
   } catch (err) {
     console.error('Failed to start server', err);
     process.exit(1);
