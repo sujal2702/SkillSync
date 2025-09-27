@@ -1,15 +1,16 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getUser, clearAuth } from '../lib/auth'
 
 export default function NavBar() {
   const location = useLocation()
+  const navigate = useNavigate()
   const user = getUser()
 
   function logout() {
     clearAuth()
-    // simple reload to reset state
-    window.location.href = '/login'
+    navigate('/login', { replace: true })  // SPA-friendly redirect
   }
+
   return (
     <header className="navbar">
       <div className="container nav-inner">

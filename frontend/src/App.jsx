@@ -21,7 +21,11 @@ export default function App() {
         <Route path="/projects/new" element={<ProjectForm />} />
         <Route path="/projects/:id/matches" element={<Matches />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="*" element={<div style={{ padding: 24 }}>Not Found. <Link to="/login">Go to Login</Link></div>} />
+        <Route path="*" element={
+          <div style={{ padding: 24 }}>
+            Not Found. <Link to="/login">Go to Login</Link>
+          </div>
+        } />
       </Routes>
     </div>
   )
