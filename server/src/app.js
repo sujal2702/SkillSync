@@ -9,8 +9,8 @@ const app = express();
 
 // Allowed frontend origins
 const allowedOrigins = [
-  "http://localhost:5173",           // Vite dev server
-  "https://skill-sync-mgrt.vercel.app" // 👈 replace with your actual frontend URL
+  "http://localhost:5173",              // Vite dev server
+  "https://skill-sync-mgrt.vercel.app"  // Your deployed frontend
 ];
 
 app.use(cors({
@@ -18,14 +18,17 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn("Blocked by CORS:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
 }));
 
+// JSON body parser
 app.use(express.json());
 
+// Test endpoints
 app.get('/', (_req, res) => {
   res.json({ status: 'ok', service: 'SkillSync API' });
 });
@@ -42,6 +45,7 @@ app.get('/api', (_req, res) => {
   });
 });
 
+// API routes
 app.use('/api/auth', authRouter);
 app.use('/api/employees', employeesRouter);
 app.use('/api/projects', projectsRouter);
