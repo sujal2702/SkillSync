@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../lib/api'
+import './ProjectsList.css'
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState([])
@@ -25,43 +26,90 @@ export default function ProjectsList() {
   useEffect(() => { load() }, [])
 
   return (
-    <div className="page">
-      <div className="card" style={{width:'100%', maxWidth:800}}>
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12}}>
-          <h2 className="title" style={{margin:0}}>Projects</h2>
-          <Link to="/projects/new" className="button primary" style={{width:'auto'}}>New Project</Link>
+    <div className="page projects-list-page">
+      <div className="card projects-list-card">
+        <div className="projects-header">
+          <h2 className="title projects-list-title">Active Projects</h2>
+          <Link to="/projects/new" className="new-project-button">New Project</Link>
         </div>
 
-        <div style={{marginBottom:12}}>
-          <label style={{display:'inline-flex', alignItems:'center', gap:8}}>
-            <input type="checkbox" checked={availability} onChange={e=>setAvailability(e.target.checked)} />
-            Check availability in matching
-          </label>
+        {/* Stats Cards */}
+        <div className="projects-stats">
+          <div className="project-stat-card">
+            <div className="project-stat-number">{projects.length}</div>
+            <div className="project-stat-label">Total Projects</div>
+          </div>
+          <div className="project-stat-card">
+            <div className="project-stat-number">{projects.filter(p => p.assignedTo).length}</div>
+            <div className="project-stat-label">Assigned</div>
+          </div>
+          <div className="project-stat-card">
+            <div className="project-stat-number">{projects.filter(p => !p.assignedTo).length}</div>
+            <div className="project-stat-label">Available</div>
+          </div>
         </div>
 
-        {loading && <div>Loading...</div>}
+        <div className="availability-checkbox">
+          <input 
+            type="checkbox" 
+            checked={availability} 
+            onChange={e=>setAvailability(e.target.checked)} 
+            id="availability-check"
+          />
+          <label htmlFor="availability-check">Check availability in matching</label>
+        </div>
+
+        {loading && (
+          <div className="projects-loading">
+            <div className="projects-loading-spinner"></div>
+            <div>Loading projects...</div>
+          </div>
+        )}
+        
         {error && <div className="alert alert-error">{error}</div>}
 
-        <div style={{display:'grid', gap:12}}>
+        <div className="projects-grid">
           {projects.map(p => (
-            <div key={p._id} style={{border:'1px solid #e5e7eb', borderRadius:6, padding:12}}>
-              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                <div>
-                  <div style={{fontWeight:600}}>{p.title}</div>
-                  <div style={{color:'#6b7280', fontSize:14}}>Skills: {(p.requiredSkills||[]).join(', ') || '—'}</div>
-                  <div style={{color:'#6b7280', fontSize:14, marginTop:4}}>
-                    Assigned: {p.assignedTo ? (typeof p.assignedTo === 'object' ? p.assignedTo.name : 'Loading...') : '—'}
+            <div key={p._id} className="project-card">
+              <div className="project-card-content">
+                <div className="project-info">
+                  <div className="project-title">{p.title}</div>
+                  
+                  <div className="project-skills">
+                    Required Skills:
+                    {(p.requiredSkills || []).length > 0 ? (
+                      <div className="project-skills-list">
+                        {p.requiredSkills.map((skill, index) => (
+                          <span key={index} className="project-skill-tag">{skill}</span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span style={{ color: '#a0aec0', fontStyle: 'italic' }}>No specific skills required</span>
+                    )}
+                  </div>
+                  
+                  <div className={`project-assigned ${!p.assignedTo ? 'unassigned' : ''}`}>
+                    Assigned to: {p.assignedTo ? (typeof p.assignedTo === 'object' ? p.assignedTo.name : 'Loading...') : 'Unassigned'}
                   </div>
                 </div>
-                <div style={{display:'flex', gap:8}}>
-                  <button className="button primary" style={{width:'auto'}}
+                
+                <div className="project-actions">
+                  <button 
+                    className="find-matches-button"
                     onClick={() => navigate(`/projects/${p._id}/matches${availability ? '?availability=true' : ''}`)}
-                  >Find Matches</button>
+                  >
+                    Find Matches
+                  </button>
                 </div>
               </div>
             </div>
           ))}
-          {(!loading && projects.length === 0) && <div style={{color:'#6b7280'}}>No projects yet.</div>}
+          
+          {(!loading && projects.length === 0) && (
+            <div className="projects-empty">
+              No projects found. Create your first project to get started!
+            </div>
+          )}
         </div>
       </div>
     </div>

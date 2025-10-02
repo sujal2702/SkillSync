@@ -61,6 +61,11 @@ export default function Login() {
         <div className="muted">
           Don't have an account? <Link to="/register">Sign Up</Link>
         </div>
+        <div className="muted" style={{ marginTop: '1rem' }}>
+          <Link to="/" style={{ color: '#667eea', textDecoration: 'none', fontWeight: '500' }}>
+            ← Back to Home
+          </Link>
+        </div>
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
+import Homepage from './pages/Homepage.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import EmployeeForm from './pages/EmployeeForm.jsx'
@@ -11,19 +12,18 @@ import NavBar from './components/NavBar.jsx'
 export default function App() {
   return (
     <div>
-      <NavBar />
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/employee" element={<EmployeeForm />} />
-        <Route path="/employees" element={<EmployeesList />} />
-        <Route path="/projects" element={<ProjectsList />} />
-        <Route path="/projects/new" element={<ProjectForm />} />
-        <Route path="/projects/:id/matches" element={<Matches />} />
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/login" element={<><NavBar /><Login /></>} />
+        <Route path="/register" element={<><NavBar /><Register /></>} />
+        <Route path="/employee" element={<><NavBar /><EmployeeForm /></>} />
+        <Route path="/employees" element={<><NavBar /><EmployeesList /></>} />
+        <Route path="/projects" element={<><NavBar /><ProjectsList /></>} />
+        <Route path="/projects/new" element={<><NavBar /><ProjectForm /></>} />
+        <Route path="/projects/:id/matches" element={<><NavBar /><Matches /></>} />
         <Route path="*" element={
           <div style={{ padding: 24 }}>
-            Not Found. <Link to="/login">Go to Login</Link>
+            Not Found. <Link to="/">Go to Homepage</Link>
           </div>
         } />
       </Routes>

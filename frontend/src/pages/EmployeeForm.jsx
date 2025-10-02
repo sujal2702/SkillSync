@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../lib/api'
 import { getUser } from '../lib/auth'
+import './EmployeeForm.css'
 
 export default function EmployeeForm() {
   const [name, setName] = useState('')
@@ -51,14 +52,16 @@ export default function EmployeeForm() {
   }
 
   return (
-    <div className="page">
-      <div className="card">
-        <h2 className="title">Skills & Availability</h2>
+    <div className="page employee-form-page">
+      <div className="card employee-form-card">
+        <div className="floating-icons">
+          <div className="floating-icon">🚀</div>
+          <div className="floating-icon">💼</div>
+          <div className="floating-icon">⭐</div>
+        </div>
+        <h2 className="title employee-form-title">Skills & Availability</h2>
         {msg && (
-          <div
-            className="alert"
-            style={{ borderColor: '#bbf7d0', background: '#f0fdf4', color: '#166534' }}
-          >
+          <div className="employee-form-success">
             {msg}
           </div>
         )}
@@ -81,29 +84,37 @@ export default function EmployeeForm() {
             onChange={e => setEmail(e.target.value)}
             disabled={!!email}
           />
-          <input
-            className="input"
-            placeholder="Skills (comma-separated)"
-            value={skills}
-            onChange={e => setSkills(e.target.value)}
-          />
-          <div style={{ display: 'grid', gap: 12, gridTemplateColumns: '1fr 1fr' }}>
+          <div className="skills-input-container">
             <input
-              className="input"
-              type="date"
-              value={startDate}
-              onChange={e => setStartDate(e.target.value)}
+              className="input skills-input"
+              placeholder="Skills (comma-separated)"
+              value={skills}
+              onChange={e => setSkills(e.target.value)}
             />
-            <input
-              className="input"
-              type="date"
-              value={endDate}
-              onChange={e => setEndDate(e.target.value)}
-            />
+          </div>
+          <div className="date-grid">
+            <div className="date-input">
+              <input
+                className="input"
+                type="date"
+                value={startDate}
+                onChange={e => setStartDate(e.target.value)}
+                placeholder="Start Date"
+              />
+            </div>
+            <div className="date-input">
+              <input
+                className="input"
+                type="date"
+                value={endDate}
+                onChange={e => setEndDate(e.target.value)}
+                placeholder="End Date"
+              />
+            </div>
           </div>
           <button className="button primary">Save</button>
         </form>
-        <div className="muted">Edit fields above and click Save to update anytime.</div>
+        <div className="employee-form-help">Edit fields above and click Save to update anytime.</div>
       </div>
     </div>
   )

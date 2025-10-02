@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams, Link } from 'react-router-dom'
 import { api } from '../lib/api'
+import './Matches.css'
 
 export default function Matches() {
   const { id } = useParams()
@@ -104,83 +105,77 @@ export default function Matches() {
   useEffect(() => { load() }, [id, availability])
 
   return (
-    <div className="page">
-      <div className="card" style={{ width: '100%', maxWidth: 800 }}>
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12}}>
-          <h2 className="title" style={{margin:0}}>Matches</h2>
-          <Link to="/projects" className="button" style={{width:'auto'}}>Back</Link>
+    <div className="page matches-page">
+      <div className="card matches-card">
+        <div className="matches-header">
+          <h2 className="title matches-title">Talent Matches</h2>
+          <Link to="/projects" className="back-button">Back to Projects</Link>
         </div>
 
         {project && (
-          <div style={{marginBottom:12, color:'#6b7280'}}>
-            Project: <strong>{project.title}</strong> · Skills: {(project.requiredSkills||[]).join(', ') || '—'}
+          <div className="project-info-banner">
+            Project: <strong>{project.title}</strong> · Required Skills: {(project.requiredSkills||[]).join(', ') || 'No specific requirements'}
           </div>
         )}
 
-        {msg && <div className="alert" style={{borderColor:'#bbf7d0', background:'#f0fdf4', color:'#166534'}}>{msg}</div>}
+        {msg && <div className="matches-success">{msg}</div>}
         {error && <div className="alert alert-error">{error}</div>}
-        {loading && <div>Loading...</div>}
+        
+        {loading && (
+          <div className="matches-loading">
+            <div className="matches-loading-spinner"></div>
+            <div>Finding the best matches...</div>
+          </div>
+        )}
 
-        <div style={{marginBottom: 16}}>
-          <div style={{display:'grid', gap:12}}>
-            {matches.map(match => {
-              const isAssigned = project?.assignedTo && 
-                (typeof project.assignedTo === 'object' 
-                  ? project.assignedTo._id === match.employee._id 
-                  : project.assignedTo === match.employee._id);
-              
-              return (
-                <div key={match.employee._id} style={{
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center', 
-                  border: '1px solid #e5e7eb', 
-                  borderRadius: 6, 
-                  padding: 12,
-                  opacity: isAssigned ? 1 : 1
-                }}>
-                  <div>
-                    <div style={{fontWeight:600, display: 'flex', alignItems: 'center', gap: 8}}>
+        <div className="matches-grid">
+          {matches.map(match => {
+            const isAssigned = project?.assignedTo && 
+              (typeof project.assignedTo === 'object' 
+                ? project.assignedTo._id === match.employee._id 
+                : project.assignedTo === match.employee._id);
+            
+            return (
+              <div key={match.employee._id} className={`match-card ${isAssigned ? 'assigned' : ''}`}>
+                <div className="match-card-content">
+                  <div className="match-employee-info">
+                    <div className="match-employee-name">
                       {match.employee.name}
                       {isAssigned && (
-                        <span style={{
-                          fontSize: 12,
-                          background: '#dcfce7',
-                          color: '#166534',
-                          padding: '2px 8px',
-                          borderRadius: 12
-                        }}>
-                          Assigned
-                        </span>
+                        <span className="assigned-badge">Assigned</span>
                       )}
                     </div>
-                    <div style={{color:'#6b7280', fontSize:14, marginTop: 4}}>
-                      Skills: {(match.employee.skills||[]).join(', ') || '—'}
+                    
+                    <div className="match-employee-skills">
+                      Skills:
+                      {(match.employee.skills || []).length > 0 ? (
+                        <div className="match-skills-list">
+                          {match.employee.skills.map((skill, index) => (
+                            <span key={index} className="match-skill-tag">{skill}</span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span style={{ color: '#a0aec0', fontStyle: 'italic' }}>No skills listed</span>
+                      )}
                     </div>
                   </div>
-                  <div style={{display:'flex', alignItems:'center', gap:12}}>
-                    <div style={{fontWeight:600}}>Score: {match.score}</div>
+                  
+                  <div className="match-actions">
+                    <div className="match-score">
+                      <div className="match-score-label">Match Score</div>
+                      <div className="match-score-value">{match.score}</div>
+                    </div>
+                    
                     {isAssigned ? (
                       <button 
-                        className="button"
-                        style={{
-                          width: 'auto', 
-                          minWidth: '100px', 
-                          background: '#fef2f2', 
-                          color: '#dc2626', 
-                          borderColor: '#fecaca'
-                        }} 
+                        className="remove-button"
                         onClick={() => toggleAssignment(match.employee._id, true)}
                       >
                         Remove
                       </button>
                     ) : (
                       <button 
-                        className="button primary"
-                        style={{
-                          width: 'auto', 
-                          minWidth: '100px',
-                        }} 
+                        className="assign-button"
                         onClick={() => toggleAssignment(match.employee._id, false)}
                       >
                         Assign
@@ -188,10 +183,15 @@ export default function Matches() {
                     )}
                   </div>
                 </div>
-              );
-            })}
-            {(!loading && matches.length === 0) && <div style={{color:'#6b7280'}}>No matches found.</div>}
-          </div>
+              </div>
+            );
+          })}
+          
+          {(!loading && matches.length === 0) && (
+            <div className="matches-empty">
+              No suitable matches found for this project.
+            </div>
+          )}
         </div>
       </div>
     </div>
