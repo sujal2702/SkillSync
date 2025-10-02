@@ -243,17 +243,20 @@
   border-radius: 10px;
   font-weight: 600;
   font-size: 0.95rem;
-  cursor: pointer;
+  cursor: pointer !important;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  pointer-events: auto !important;
 }
 
 .find-matches-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(56, 161, 105, 0.4);
+  cursor: pointer !important;
+  background: linear-gradient(135deg, #2f855a 0%, #38a169 100%);
 }
 
 .projects-loading {

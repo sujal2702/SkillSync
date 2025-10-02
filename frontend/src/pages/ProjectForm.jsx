@@ -16,7 +16,7 @@ export default function ProjectForm() {
     try {
       const payload = {
         title,
-        requiredSkills: requiredSkills.split(/[\n,]/).map(s=>s.trim()).filter(Boolean),
+        requiredSkills: requiredSkills.split(/[\n,]/).map(s => s.trim()).filter(Boolean),
         startDate: startDate || undefined,
         endDate: endDate || undefined,
       }
@@ -41,38 +41,38 @@ export default function ProjectForm() {
         {error && <div className="alert alert-error">{error}</div>}
         <form onSubmit={handleSubmit} className="form">
           <div className="project-title-input-container">
-            <input 
-              className="input project-title-input" 
-              placeholder="Project Title *" 
-              value={title} 
-              onChange={e=>setTitle(e.target.value)} 
-              required 
+            <input
+              className="input project-title-input"
+              placeholder="Project Title *"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              required
             />
           </div>
           <div className="skills-input-container">
-            <input 
-              className="input project-skills-input" 
-              placeholder="Required Skills (comma-separated)" 
-              value={requiredSkills} 
-              onChange={e=>setRequiredSkills(e.target.value)} 
+            <input
+              className="input project-skills-input"
+              placeholder="Required Skills (comma-separated)"
+              value={requiredSkills}
+              onChange={e => setRequiredSkills(e.target.value)}
             />
           </div>
           <div className="project-date-grid">
             <div className="project-date-input">
-              <input 
-                className="input" 
-                type="date" 
-                value={startDate} 
-                onChange={e=>setStartDate(e.target.value)}
+              <input
+                className="input"
+                type="date"
+                value={startDate}
+                onChange={e => setStartDate(e.target.value)}
                 placeholder="Start Date"
               />
             </div>
             <div className="project-date-input">
-              <input 
-                className="input" 
-                type="date" 
-                value={endDate} 
-                onChange={e=>setEndDate(e.target.value)}
+              <input
+                className="input"
+                type="date"
+                value={endDate}
+                onChange={e => setEndDate(e.target.value)}
                 placeholder="End Date"
               />
             </div>

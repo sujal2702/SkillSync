@@ -243,3 +243,22 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+/* Ensure Find Matches button works properly */
+.find-matches-button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  user-select: none;
+}
+
+.find-matches-button:hover {
+  cursor: pointer !important;
+}
+
+/* Ensure all buttons have proper cursor */
+button {
+  cursor: pointer !important;
+}
+
+button:disabled {
+  cursor: not-allowed !important;
+}
