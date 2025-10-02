@@ -176,8 +176,9 @@
     padding: 2rem;
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    min-width: 0;
 }
 
 .match-card.assigned {
@@ -215,6 +216,8 @@
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
+    width: 100%;
+    min-width: 0;
 }
 
 .match-employee-info {
@@ -284,6 +287,8 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    flex-shrink: 0;
+    min-width: fit-content;
 }
 
 .match-score {
@@ -319,12 +324,15 @@
     border-radius: 12px;
     font-weight: 600;
     font-size: 0.95rem;
-    cursor: pointer;
+    cursor: pointer !important;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     min-width: 120px;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 10;
 }
 
 .assign-button:hover {
@@ -340,12 +348,15 @@
     border-radius: 12px;
     font-weight: 600;
     font-size: 0.95rem;
-    cursor: pointer;
+    cursor: pointer !important;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     min-width: 120px;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 10;
 }
 
 .remove-button:hover {
