@@ -233,6 +233,8 @@
 .project-actions {
   display: flex;
   gap: 1rem;
+  position: relative;
+  z-index: 5;
 }
 
 .find-matches-button {
@@ -257,6 +259,8 @@
   box-shadow: 0 8px 25px rgba(56, 161, 105, 0.4);
   cursor: pointer !important;
   background: linear-gradient(135deg, #2f855a 0%, #38a169 100%);
+  position: relative;
+  z-index: 10;
 }
 
 .projects-loading {
@@ -329,27 +333,27 @@
     padding: 2rem;
     margin: 1rem;
   }
-  
+
   .projects-header {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .projects-list-title {
     font-size: 2rem;
     text-align: center;
   }
-  
+
   .projects-stats {
     grid-template-columns: 1fr;
   }
-  
+
   .project-card-content {
     flex-direction: column;
     align-items: stretch;
     gap: 1.5rem;
   }
-  
+
   .project-actions {
     justify-content: center;
   }
